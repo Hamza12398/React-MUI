@@ -9,6 +9,7 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import Todo from "./Todo";
 
 export default function TodoList() {
   return (
@@ -16,7 +17,7 @@ export default function TodoList() {
       <Container maxWidth="sm">
         <Card sx={{ minWidth: 275 }}>
           <CardContent>
-            <Typography variant="h2">TODOLIST</Typography>
+            <Typography variant="h2">TODO LIST</Typography>
             <Divider sx={{ my: 2 }} />
             <ToggleButtonGroup
               // value={alignment}
@@ -25,13 +26,14 @@ export default function TodoList() {
               aria-label="Platform"
             >
               <ToggleButton value="web">ALL</ToggleButton>
-              <ToggleButton value="android">Android</ToggleButton>
-              <ToggleButton value="ios">iOS</ToggleButton>
+              <ToggleButton value="android">Achieved</ToggleButton>
+              <ToggleButton value="ios">Unfinished</ToggleButton>
             </ToggleButtonGroup>
           </CardContent>
           <CardActions>
             <Button size="small">Learn More</Button>
           </CardActions>
+          <Todo />
         </Card>
       </Container>
     </React.Fragment>
