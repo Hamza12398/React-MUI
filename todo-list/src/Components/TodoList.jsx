@@ -19,7 +19,6 @@ export default function TodoList() {
             <Typography variant="h2">TODOLIST</Typography>
             <Divider sx={{ my: 2 }} />
             <ToggleButtonGroup
-              color="primary"
               // value={alignment}
               exclusive
               // onChange={handleChange}
