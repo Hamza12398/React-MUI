@@ -30,10 +30,9 @@ export default function TodoList() {
               <ToggleButton value="ios">Unfinished</ToggleButton>
             </ToggleButtonGroup>
           </CardContent>
-          <CardActions>
-            <Button size="small">Learn More</Button>
-          </CardActions>
+          {/* COMPONENTS */}
           <Todo />
+          {/* COMPONENTS */}
         </Card>
       </Container>
     </React.Fragment>
