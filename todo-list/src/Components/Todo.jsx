@@ -22,7 +22,7 @@ export default function Todo() {
       <CardContent>
         <Grid container spacing={2}>
           <Grid xs={8}>
-            <Typography sx={{background:"red"}} variant="h5">First TODO</Typography>
+            <Typography  variant="h5">First TODO</Typography>
           </Grid>
 
           {/* BUTTONS */}
