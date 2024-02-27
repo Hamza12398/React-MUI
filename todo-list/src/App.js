@@ -11,11 +11,12 @@ function App() {
       <div
         className="App"
         style={{
-          background: "#22577A",
+          background: "#1D5B79",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
           height: "100vh",
+          direction: "ltr",
         }}
       >
         <TodoList />
