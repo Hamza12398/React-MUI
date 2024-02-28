@@ -11,7 +11,35 @@ import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Grid from "@mui/material/Grid";
 import Todo from "./Todo";
+import Field from "./Field";
 
+// ! OTHER IMPORT
+import { v4 as uuidv4 } from "uuid";
+
+const todos = [
+  {
+    id: uuidv4(),
+    title: "Learn TypeScript",
+    details: "Learn TypeScript in 2Hours",
+    isCompleted: false,
+  },
+  {
+    id: uuidv4(),
+    title: "Learn TypeScript",
+    details: "Learn TypeScript in 2Hours",
+    isCompleted: false,
+  },
+  {
+    id: uuidv4(),
+    title: "Learn TypeScript",
+    details: "Learn TypeScript in 2Hours",
+    isCompleted: false,
+  },
+];
+
+const todoList = todos.map((t) => {
+  return <Todo key={t.id} title ={t.title} details={t.details}/>;
+});
 export default function TodoList() {
   return (
     <>
@@ -20,6 +48,7 @@ export default function TodoList() {
           <CardContent>
             <Typography variant="h2">TODO LIST</Typography>
             <Divider sx={{ my: 2 }} />
+
             {/* FILTER BUTTON */}
             <ToggleButtonGroup
               // value={alignment}
@@ -55,6 +84,10 @@ export default function TodoList() {
               ></Grid>
             </Grid>
             {/* ---------INPUT + ADD BUTTON------- */}
+
+            {/* FIELD AND BUTTON */}
+            <Field />
+            {/* -------FIELD AND BUTTON------ */}
           </CardContent>
         </Card>
       </Container>

@@ -49,7 +49,8 @@
 .card-container {
   transition: all 0.2s !important;
 }
-/* .card-container:hover {
+.card-container:hover {
   padding-top: 20px;
   padding-bottom: 20px;
-} */
+  box-shadow: 0 7px 7px rgba(0, 0, 0, 0.2) !important;
+}

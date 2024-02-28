@@ -2,17 +2,16 @@ import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import CheckIcon from "@mui/icons-material/Check";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 
-export default function Todo() {
+export default function Todo({title, details}) {
   return (
+    <>
     <Card
       className="card-container"
       sx={{
@@ -25,8 +24,8 @@ export default function Todo() {
       <CardContent>
         <Grid container spacing={2}>
           <Grid xs={8}>
-            <Typography variant="h5">First TODO</Typography>
-            <Typography variant="h6">doing the First TODO</Typography>
+            {title}
+            {details}
           </Grid>
 
           {/* BUTTONS <<ICONS>> */}
@@ -77,5 +76,6 @@ export default function Todo() {
         </Grid>
       </CardContent>
     </Card>
+    </>
   );
 }
