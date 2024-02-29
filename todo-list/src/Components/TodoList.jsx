@@ -9,14 +9,15 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import TextField from "@mui/material/TextField";
+import SendIcon from "@mui/icons-material/Send";
 import Grid from "@mui/material/Grid";
 import Todo from "./Todo";
-import Field from "./Field";
+import { useState } from "react";
 
-// ! OTHER IMPORT
 import { v4 as uuidv4 } from "uuid";
 
-const todos = [
+const initialTodos = [
   {
     id: uuidv4(),
     title: "Learn TypeScript",
@@ -25,22 +26,48 @@ const todos = [
   },
   {
     id: uuidv4(),
-    title: "Learn TypeScript",
-    details: "Learn TypeScript in 2Hours",
+    title: "Learn Next.Js",
+    details: "Learn Next.js in 2Weeks",
     isCompleted: false,
   },
   {
     id: uuidv4(),
-    title: "Learn TypeScript",
-    details: "Learn TypeScript in 2Hours",
+    title: "Learn SSG",
+    details: "Learn SSG in 2Hours",
     isCompleted: false,
   },
 ];
 
-const todoList = todos.map((t) => {
-  return <Todo key={t.id} title ={t.title} details={t.details}/>;
-});
 export default function TodoList() {
+  // ! STATES
+  const [todos, setTodos] = useState(initialTodos);
+  const [titleInput, setTitleInput] = useState("");
+  // ! END STATES
+
+  function handleCheckClick(todoId) {
+    const updateTodos = todos.map((t) => {
+      if (t.id === todoId) {
+        t.isCompleted = !t.isCompleted;
+      }
+      return t;
+    });
+    setTodos(updateTodos);
+  }
+  const todoList = todos.map((t) => {
+    return <Todo key={t.id} todo={t} handleCheck={handleCheckClick} />;
+  });
+
+  function haNdleAddClick() {
+    const newTodo = {
+      id: uuidv4(),
+      title: titleInput,
+      details: "",
+      isCompleted: false,
+    };
+    setTodos([...todos, newTodo]);
+    setTitleInput("");
+  }
+
   return (
     <>
       <Container maxWidth="sm">
@@ -63,9 +90,7 @@ export default function TodoList() {
             {/*  -----------FILTER BUTTON----------- */}
 
             {/* COMPONENTS */}
-            <Todo />
-            <Todo />
-            <Todo />
+            {todoList}
             {/* COMPONENTS */}
 
             {/* INPUT + ADD BUTTON */}
@@ -86,7 +111,42 @@ export default function TodoList() {
             {/* ---------INPUT + ADD BUTTON------- */}
 
             {/* FIELD AND BUTTON */}
-            <Field />
+            <Grid container sx={{ marginTop: "20px" }}>
+              <Grid
+                xs={8}
+                display="flex"
+                justifyContent="space-around"
+                alignContent="center"
+              >
+                <TextField
+                  id="outlined-basic"
+                  label="Title Of ToDo"
+                  variant="outlined"
+                  sx={{ width: "100%" }}
+                  value={titleInput}
+                  onChange={(e) => {
+                    setTitleInput(e.target.value);
+                  }}
+                />
+              </Grid>
+              <Grid
+                xs={4}
+                display="flex"
+                justifyContent="space-around"
+                alignItems="center"
+              >
+                <Button
+                  sx={{ width: "100%", height: "100%" }}
+                  variant="contained"
+                  endIcon={<SendIcon />}
+                  onClick={() => {
+                    haNdleAddClick();
+                  }}
+                >
+                  Add New
+                </Button>
+              </Grid>
+            </Grid>
             {/* -------FIELD AND BUTTON------ */}
           </CardContent>
         </Card>
