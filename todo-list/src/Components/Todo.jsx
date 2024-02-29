@@ -9,6 +9,12 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 
+
+// ! HOOKS
+import { useContext } from "react";
+import { TodosContext } from "./Contexts/TodosContext";
+// !  END HOOKS
+
 export default function Todo({ todo, handleCheck }) {
   function handleCheckClick() {
     handleCheck(todo.id);
@@ -21,7 +27,7 @@ export default function Todo({ todo, handleCheck }) {
           minWidth: 275,
           background: "#468B97",
           color: "white",
-          marginTop: 5,
+          marginTop: 4,
         }}
       >
         <CardContent>

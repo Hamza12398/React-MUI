@@ -1,8 +1,6 @@
 import * as React from "react";
 import Container from "@mui/material/Container";
-import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -13,36 +11,20 @@ import TextField from "@mui/material/TextField";
 import SendIcon from "@mui/icons-material/Send";
 import Grid from "@mui/material/Grid";
 import Todo from "./Todo";
+
+
 import { useState } from "react";
+import { useContext } from "react";
+import { TodosContext } from "./Contexts/TodosContext";
 
 import { v4 as uuidv4 } from "uuid";
 
-const initialTodos = [
-  {
-    id: uuidv4(),
-    title: "Learn TypeScript",
-    details: "Learn TypeScript in 2Hours",
-    isCompleted: false,
-  },
-  {
-    id: uuidv4(),
-    title: "Learn Next.Js",
-    details: "Learn Next.js in 2Weeks",
-    isCompleted: false,
-  },
-  {
-    id: uuidv4(),
-    title: "Learn SSG",
-    details: "Learn SSG in 2Hours",
-    isCompleted: false,
-  },
-];
+
 
 export default function TodoList() {
-  // ! STATES
-  const [todos, setTodos] = useState(initialTodos);
+  const {todos, setTodos} = useContext(TodosContext)
   const [titleInput, setTitleInput] = useState("");
-  // ! END STATES
+
 
   function handleCheckClick(todoId) {
     const updateTodos = todos.map((t) => {
