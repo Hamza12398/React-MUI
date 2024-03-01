@@ -1,26 +1,78 @@
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import CheckIcon from "@mui/icons-material/Check";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
-
-// ! HOOKS
 import { useContext } from "react";
-import { TodosContext } from "./Contexts/TodosContext";
-// !  END HOOKS
+import { useState } from "react";
+import { TodosContext } from "../Contexts/TodosContext";
 
-export default function Todo({ todo, handleCheck }) {
+export default function Todo({ todo }) {
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const { todos, setTodos } = useContext(TodosContext);
+
+  // * FUNCTIONS ********************************
   function handleCheckClick() {
-    handleCheck(todo.id);
+    const updateTodos = todos.map((t) => {
+      if (t.id === todo.id) {
+        t.isCompleted = !t.isCompleted;
+      }
+      return t;
+    });
+    setTodos(updateTodos);
   }
+  function handleDeleteClick() {
+    // alert("Are you sure you want to delete");
+    setShowDeleteDialog(true);
+  }
+  function handleClose() {
+    setShowDeleteDialog(false);
+  }
+  function handleDelete() {
+    const updateTodos = todos.filter((t) => t.id!== todo.id);
+    // console.log(typeof updateTodos);
+    setTodos(updateTodos);
+  }
+
+  // * END FUNCTIONS ********************************
+
+  // let open = true;
   return (
     <>
+      <Dialog
+        // fullScreen={fullScreen}
+        open={showDeleteDialog}
+        onClose={handleClose}
+        aria-labelledby="responsive-dialog-title"
+      >
+        <DialogTitle id="responsive-dialog-title">
+          {"Are you sure you want to delete?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Let Google help apps determine location. This means sending
+            anonymous location data to Google, even when no apps are running.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button autoFocus onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button onClick={handleDelete} autoFocus>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
       <Card
         className="card-container"
         sx={{
@@ -73,6 +125,7 @@ export default function Todo({ todo, handleCheck }) {
                 <EditIcon />
               </IconButton>
               <IconButton
+                onClick={handleDeleteClick}
                 className="iconButton"
                 aria-label="delete"
                 sx={{

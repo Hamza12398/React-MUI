@@ -15,7 +15,7 @@ import Todo from "./Todo";
 
 import { useState } from "react";
 import { useContext } from "react";
-import { TodosContext } from "./Contexts/TodosContext";
+import { TodosContext } from "../Contexts/TodosContext";
 
 import { v4 as uuidv4 } from "uuid";
 
@@ -26,17 +26,9 @@ export default function TodoList() {
   const [titleInput, setTitleInput] = useState("");
 
 
-  function handleCheckClick(todoId) {
-    const updateTodos = todos.map((t) => {
-      if (t.id === todoId) {
-        t.isCompleted = !t.isCompleted;
-      }
-      return t;
-    });
-    setTodos(updateTodos);
-  }
+
   const todoList = todos.map((t) => {
-    return <Todo key={t.id} todo={t} handleCheck={handleCheckClick} />;
+    return <Todo key={t.id} todo={t} />;
   });
 
   function haNdleAddClick() {
