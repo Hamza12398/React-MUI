@@ -7,6 +7,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -19,6 +20,12 @@ import { TodosContext } from "../Contexts/TodosContext";
 
 export default function Todo({ todo }) {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [showCreateDialoge, setShowCreateDialoge] = useState(false);
+  const [updatedTodo, setUpdateTodo] = useState({
+    title: todo.title,
+    details: todo.details,
+  });
+
   const { todos, setTodos } = useContext(TodosContext);
 
   // * FUNCTIONS ********************************
@@ -31,6 +38,7 @@ export default function Todo({ todo }) {
     });
     setTodos(updateTodos);
   }
+
   function handleDeleteClick() {
     // alert("Are you sure you want to delete");
     setShowDeleteDialog(true);
@@ -38,10 +46,33 @@ export default function Todo({ todo }) {
   function handleClose() {
     setShowDeleteDialog(false);
   }
+
+  function handkeEditClick() {
+    setShowCreateDialoge(true);
+  }
+  function handleCloseCreate() {
+    setShowCreateDialoge(false);
+  }
+
   function handleDelete() {
-    const updateTodos = todos.filter((t) => t.id!== todo.id);
-    // console.log(typeof updateTodos);
-    setTodos(updateTodos);
+    const updatedTodos = todos.filter((t) => t.id !== todo.id);
+    setTodos(updatedTodos);
+  }
+
+  function handleEdit() {
+    let updatedTodos = todos.map((t) => {
+      if (t.id === todo.id) {
+        return {
+          ...t,
+          title: updatedTodo.title,
+          details: updatedTodo.details,
+        };
+      } else {
+        return t;
+      }
+    });
+    setTodos(updatedTodos);
+    setShowCreateDialoge(false);
   }
 
   // * END FUNCTIONS ********************************
@@ -49,6 +80,7 @@ export default function Todo({ todo }) {
   // let open = true;
   return (
     <>
+      {/* DIALOG DELETE */}
       <Dialog
         // fullScreen={fullScreen}
         open={showDeleteDialog}
@@ -60,8 +92,12 @@ export default function Todo({ todo }) {
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Let Google help apps determine location. This means sending
-            anonymous location data to Google, even when no apps are running.
+            <span style={{ display: "block" }}>
+              You gonna Delete This ToDo Of your List.
+            </span>
+            <span style={{ display: "block" }}>
+              <b>Are you Sure About This?</b>
+            </span>
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -73,6 +109,60 @@ export default function Todo({ todo }) {
           </Button>
         </DialogActions>
       </Dialog>
+      {/* END DIALOG DELETE */}
+
+      {/* DIALOG EDIT */}
+      <Dialog
+        open={showCreateDialoge}
+        onClose={handleClose}
+        PaperProps={{
+          component: "form",
+          onSubmit: (event) => {
+            event.preventDefault();
+            handleClose();
+          },
+        }}
+      >
+        <DialogTitle>Edit</DialogTitle>
+        <DialogContent>
+          <DialogContentText>Edit Your ToDo List</DialogContentText>
+          <TextField
+            autoFocus
+            required
+            margin="dense"
+            id="name"
+            name="email"
+            label="Edit Title"
+            fullWidth
+            variant="standard"
+            value={updatedTodo.title}
+            onChange={(t) => {
+              setUpdateTodo({ ...updatedTodo, title: t.target.value });
+            }}
+          />
+          <TextField
+            autoFocus
+            required
+            margin="dense"
+            id="name"
+            name="email"
+            label="Edit Details"
+            fullWidth
+            variant="standard"
+            value={updatedTodo.details}
+            onChange={(t) => {
+              setUpdateTodo({ ...updatedTodo, details: t.target.value });
+            }}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseCreate}>Cancel</Button>
+          <Button onClick={handleEdit}>Edit</Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* END DIALOG EDIT */}
+
       <Card
         className="card-container"
         sx={{
@@ -113,6 +203,9 @@ export default function Todo({ todo }) {
                 <CheckIcon />
               </IconButton>
               <IconButton
+                onClick={() => {
+                  handkeEditClick();
+                }}
                 className="iconButton"
                 aria-label="delete"
                 sx={{

@@ -12,20 +12,15 @@ import SendIcon from "@mui/icons-material/Send";
 import Grid from "@mui/material/Grid";
 import Todo from "./Todo";
 
-
 import { useState } from "react";
 import { useContext } from "react";
 import { TodosContext } from "../Contexts/TodosContext";
 
 import { v4 as uuidv4 } from "uuid";
 
-
-
 export default function TodoList() {
-  const {todos, setTodos} = useContext(TodosContext)
+  const { todos, setTodos } = useContext(TodosContext);
   const [titleInput, setTitleInput] = useState("");
-
-
 
   const todoList = todos.map((t) => {
     return <Todo key={t.id} todo={t} />;
@@ -38,7 +33,9 @@ export default function TodoList() {
       details: "",
       isCompleted: false,
     };
-    setTodos([...todos, newTodo]);
+    let local = [...todos, newTodo];
+    setTodos(local);
+    localStorage.setItem("todos", JSON.stringify(local));
     setTitleInput("");
   }
 
