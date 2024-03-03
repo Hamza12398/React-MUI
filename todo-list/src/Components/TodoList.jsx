@@ -12,8 +12,7 @@ import SendIcon from "@mui/icons-material/Send";
 import Grid from "@mui/material/Grid";
 import Todo from "./Todo";
 
-import { useState } from "react";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { TodosContext } from "../Contexts/TodosContext";
 
 import { v4 as uuidv4 } from "uuid";
@@ -21,10 +20,40 @@ import { v4 as uuidv4 } from "uuid";
 export default function TodoList() {
   const { todos, setTodos } = useContext(TodosContext);
   const [titleInput, setTitleInput] = useState("");
+  const [displayedInputType, setDisplayedInputType] = useState("all");
 
-  const todoList = todos.map((t) => {
+
+  // ! FILTTER TODOS LIST
+  const completedTodo = todos.filter((t) => {
+    return t.isCompleted;
+  });
+  const uncompletedTodo = todos.filter((t) => {
+    return !t.isCompleted;
+  });
+  function changeDisplayedType(e) {
+    setDisplayedInputType(e.target.value);
+  }
+
+  let todoToBe = todos; 
+
+  if (displayedInputType === "achieved") {
+    todoToBe = completedTodo;
+  } else if (displayedInputType === "unfinished") {
+    todoToBe = uncompletedTodo;
+  }
+  // ! END FILTTER TODOS LIST
+  const todoList = todoToBe.map((t) => {
     return <Todo key={t.id} todo={t} />;
   });
+
+
+  
+
+
+  useEffect(() => {
+    const storageTodos = JSON.parse(localStorage.getItem("todos"));
+    setTodos(storageTodos);
+  }, []);
 
   function haNdleAddClick() {
     const newTodo = {
@@ -49,14 +78,14 @@ export default function TodoList() {
 
             {/* FILTER BUTTON */}
             <ToggleButtonGroup
-              // value={alignment}
+              value={displayedInputType}
               exclusive
-              // onChange={handleChange}
+              onChange={changeDisplayedType}
               aria-label="Platform"
             >
-              <ToggleButton value="web">ALL</ToggleButton>
-              <ToggleButton value="android">Achieved</ToggleButton>
-              <ToggleButton value="ios">Unfinished</ToggleButton>
+              <ToggleButton value="all">ALL</ToggleButton>
+              <ToggleButton value="achieved">Achieved</ToggleButton>
+              <ToggleButton value="unfinished">Unfinished</ToggleButton>
             </ToggleButtonGroup>
             {/*  -----------FILTER BUTTON----------- */}
 

@@ -14,8 +14,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-import { useContext } from "react";
-import { useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { TodosContext } from "../Contexts/TodosContext";
 
 export default function Todo({ todo }) {
@@ -37,11 +36,13 @@ export default function Todo({ todo }) {
       return t;
     });
     setTodos(updateTodos);
+    localStorage.setItem("todos", JSON.stringify(updateTodos));
   }
 
   function handleDeleteClick() {
     // alert("Are you sure you want to delete");
     setShowDeleteDialog(true);
+    
   }
   function handleClose() {
     setShowDeleteDialog(false);
@@ -57,6 +58,7 @@ export default function Todo({ todo }) {
   function handleDelete() {
     const updatedTodos = todos.filter((t) => t.id !== todo.id);
     setTodos(updatedTodos);
+    localStorage.setItem("todos", JSON.stringify(updatedTodos));
   }
 
   function handleEdit() {
@@ -73,11 +75,11 @@ export default function Todo({ todo }) {
     });
     setTodos(updatedTodos);
     setShowCreateDialoge(false);
+    localStorage.setItem("todos", JSON.stringify(updatedTodos));
   }
 
   // * END FUNCTIONS ********************************
 
-  // let open = true;
   return (
     <>
       {/* DIALOG DELETE */}
